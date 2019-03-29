@@ -22,6 +22,10 @@ public class Bill {
         this.list = new ArrayList<>();
     }
 
+    public List<Item> getList() {
+        return list;
+    }
+
     public void addItem(Item item) throws BillExeptions{
         if (item != null) {
             if (list.size() == Globals.MAXITEMS) {
@@ -86,5 +90,11 @@ public class Bill {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         return date;
+    }
+
+
+    public float getUSDcurr(float USD, float price) {
+        float USDprice = USD * price;
+        return USDprice;
     }
 }

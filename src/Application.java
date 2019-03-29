@@ -1,4 +1,5 @@
 import Bill.Bill;
+import Bill.XML;
 import Exeptions.BillExeptions;
 import Items.Category;
 import Items.Drink.Bottle;
@@ -10,6 +11,10 @@ import Items.Food.Pastry;
 import Items.Goods;
 import Items.Item;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import java.io.IOException;
+
 public class Application {
     private static Application app = new Application();
 
@@ -20,7 +25,7 @@ public class Application {
         return app;
     }
 
-    public void example() throws BillExeptions {
+    public void example() throws BillExeptions, IOException, ParserConfigurationException, TransformerException {
         Bill bill = new Bill();
         Bottle milk = new Bottle("milk 1,5", 0.59, 2);
         bill.addItem(milk);
@@ -40,5 +45,11 @@ public class Application {
         System.out.println(bill.getFinalPrice());
         bill.print();
 
+        Internet request = new Internet();
+        float USDprice = bill.getUSDcurr(request.getCurrency(request.sendGET()), bill.getFinalPrice());
+
+
+        XML xml = new XML();
+        xml.crateXMLFile(xml.generateXML(bill, USDprice));
     }
 }
