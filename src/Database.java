@@ -1,10 +1,25 @@
+import Bill.Bill;
 import Items.Globals;
+import Items.Item;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
 
 public class Database {
+
+    private static Database dab = new Database();
+
+    private Database() {
+    }
+
+    public static Database getInstance() {
+        return dab;
+    }
+
     private Connection getConnection()
     {
         Connection conn;
@@ -26,7 +41,6 @@ public class Database {
         return null;
     }
 
-
     private void closeConnection(Connection conn){
         if(conn!=null) {
             try {
@@ -37,4 +51,26 @@ public class Database {
         }
     }
 
+    public void insertBillDetails(Date date, float totalPrice) {
+        Connection conn = getConnection();
+
+        try {
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO bill (dateTime, totalPrice) VALUES (?,?)");
+
+            stm.setString(1, String.valueOf(date));
+            stm.setString(2, String.valueOf(totalPrice));
+
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        closeConnection(conn);
+    }
+
+    public void insertBillItems(Bill bill) {
+        Connection conn = getConnection();
+
+
+    }
 }

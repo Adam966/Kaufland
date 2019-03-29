@@ -40,7 +40,7 @@ public class Application {
         Draft beer = new Draft("Birrel Lemon", 5.20, true, 0.5);
         bill.addItem(beer);
         bill.getFinalPrice();
-        bill.end();
+
         System.out.println(bill.countBill());
         System.out.println(bill.getFinalPrice());
         bill.print();
@@ -51,5 +51,9 @@ public class Application {
 
         XML xml = new XML();
         xml.crateXMLFile(xml.generateXML(bill, USDprice));
+
+        Database database = Database.getInstance();
+        database.insertBillDetails(bill.getDate(), bill.getFinalPrice());
+        bill.end();
     }
 }
