@@ -53,7 +53,7 @@ public class Application {
         xml.crateXMLFile(xml.generateXML(bill, USDprice));
 
         Database database = Database.getInstance();
-        database.insertBillDetails(bill.getDate(), bill.getFinalPrice());
+        //database.insertBillDetails(bill.getDate(), bill.getFinalPrice());
         bill.end();
     }
 }

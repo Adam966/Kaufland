@@ -1,8 +1,12 @@
 package Bill;
 
 import Exeptions.BillExeptions;
+import Items.Drink.Bottle;
+import Items.Drink.Draft;
 import Items.Drink.DraftInterference;
 import Items.Food.Fruit;
+import Items.Food.Pastry;
+import Items.Food.Sweets;
 import Items.Globals;
 import Items.Item;
 import Items.Piece;
@@ -27,12 +31,14 @@ public class Bill {
     }
 
     public void addItem(Item item) throws BillExeptions{
-        if (item != null) {
-            if (list.size() == Globals.MAXITEMS) {
-                String massage = "Bill is full, maximum is " + Globals.MAXITEMS;
-                throw new BillExeptions(massage);
+        if (checkItem(item)) {
+            if (item != null) {
+                if (list.size() == Globals.MAXITEMS) {
+                    String massage = "Bill is full, maximum is " + Globals.MAXITEMS;
+                    throw new BillExeptions(massage);
+                }
+                list.add(item);
             }
-            list.add(item);
         }
     }
 
@@ -96,5 +102,27 @@ public class Bill {
     public float getUSDcurr(float USD, float price) {
         float USDprice = USD * price;
         return USDprice;
+    }
+    
+    public boolean checkItem(Item item) {
+        for (Item i : getList())
+            if (i.getName().toLowerCase() == item.getName().toLowerCase()) {
+                if (i.getClass() == item.getClass()) {
+                    if (i instanceof Draft) {
+                        ((Draft) i).setVolume(((Draft) item).getVolume());
+                    }
+                    if (i instanceof Fruit) {
+                        ((Fruit) i).setWeight(((Fruit) item).getWeight());
+                    }
+                    if (i instanceof Sweets) {
+                        ((Sweets) i).setAmount(((Sweets) item).getAmount());
+                    }
+                    if (i instanceof Pastry) {
+                        ((Pastry) i).setAmount(((Pastry) item).getAmount());
+                    }
+                    return false;
+                }
+            }
+        return true;
     }
 }

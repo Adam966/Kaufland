@@ -23,4 +23,8 @@ public class Sweets extends Food implements Piece {
     public double getTotalPrice() {
         return amount * getPrice();
     }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
 }
